@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">마이뉴스</string>
+    <string name="app_version">v 1.0</string>
+    <string name="test">test</string>
+
+    <string name="splash_first_line">최신 뉴스를 제공합니다</string>
+    <string name="splash_second_line">뉴스의 키워드를 알아보세요</string>
+    <string name="splash_third_line">뉴스를 클릭하면 원본 뉴스를 볼 수 있습니다</string>
+    <string name="loading">뉴스 정보를 받아오는 중 입니다</string>
+    <string name="title">뉴스 제목</string>
+    <string name="original">뉴스 원문</string>
+    <string name="keywordText">Top</string>
+</resources>
