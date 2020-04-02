@@ -40,7 +40,6 @@ class MainActivity: BaseActivity<ActivityMainBinding, MainViewModel>(), MainNavi
                     )
                 }
             }
-            setItemViewCacheSize(viewModel.linkList.size/2)
         }
     }
 }
