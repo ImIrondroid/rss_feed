@@ -12,10 +12,14 @@ class SplashViewModel(
 ): BaseViewModel<SplashNavigator>() {
 
     fun toMain() {
-        Observable
-            .timer(SPLASH_TIME, TimeUnit.MILLISECONDS)
-            .subscribe { getNavigator().nextActivity(MainActivity::class, clearTask = true)}
+        overtimeWait()
+            .subscribe({getNavigator().nextActivity(MainActivity::class, clearTask = true)},{t: Throwable? -> t?.printStackTrace() })
             .let(compositeDisposable::add)
+    }
+
+    fun overtimeWait(): Observable<Long> {
+        return Observable
+            .timer(SPLASH_TIME, TimeUnit.MILLISECONDS)
     }
 
     companion object {

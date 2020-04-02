@@ -2,7 +2,6 @@ package com.news.sample
 
 import com.news.sample.ui.viewmodel.MainViewModel
 import com.news.sample.util.rx.AppSchedulerProvider
-import io.reactivex.observers.TestObserver
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.TestScheduler
 import org.junit.After
@@ -10,14 +9,13 @@ import org.junit.Before
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 
-class RxTest {
+class MainTest {
 
-    private val viewModel = MainViewModel(AppSchedulerProvider())
-    lateinit var testScheduler: TestScheduler
-    lateinit var testObservable: TestObserver<Long>
+    lateinit var viewModel: MainViewModel
 
     @Before
     fun setUp() {
+        viewModel = MainViewModel(AppSchedulerProvider())
         RxJavaPlugins.reset()
     }
 
@@ -31,24 +29,24 @@ class RxTest {
     }
 
     @Test
-    fun testForFailedOpen() {
+    fun testForMainOpenFailed() {
 
-        testScheduler = TestScheduler()
+        val testScheduler = TestScheduler()
         RxJavaPlugins.setComputationSchedulerHandler { testScheduler }
-        testObservable = viewModel.overtimeWait().test()
+        val testObservable = viewModel.overtimeWait().test()
 
-        testScheduler.advanceTimeBy(2500L, TimeUnit.MILLISECONDS)
+        testScheduler.advanceTimeBy(2900L, TimeUnit.MILLISECONDS)
         testObservable.assertComplete()
     }
 
     @Test
-    fun testForSuccessfulOpen() {
+    fun testForMainOpenSuccess() {
 
-        testScheduler = TestScheduler()
+        val testScheduler = TestScheduler()
         RxJavaPlugins.setComputationSchedulerHandler { testScheduler }
-        testObservable = viewModel.overtimeWait().test()
+        val testObservable = viewModel.overtimeWait().test()
 
-        testScheduler.advanceTimeBy(3500L, TimeUnit.MILLISECONDS)
+        testScheduler.advanceTimeBy(3100L, TimeUnit.MILLISECONDS)
         testObservable.assertComplete()
     }
 

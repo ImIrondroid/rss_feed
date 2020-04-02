@@ -1,7 +1,7 @@
 package com.news.sample.ui.adapter
 
 import android.content.Context
-import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,10 +54,6 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = listDiffer.currentList[position]
-        holder.title.text = ""
-        holder.description.text = ""
-        holder.image.setBackgroundColor(Color.WHITE)
-        holder.rcvKeyword.visibility = View.INVISIBLE
 
         if(onItemSelectedListener!=null) {
             holder.itemView.setOnClickListener {
@@ -82,8 +78,6 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                     context.runOnUiThread {
                         requestManager
                             .load(ErrorImage.getDefaultImage(position))
-                            .centerCrop()
-                            .skipMemoryCache(true)
                             .into(holder.image)
                     }
                 } else {
@@ -103,12 +97,10 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                             .thumbnail(0.5f)
                             .override(150,150)
                             .error(ErrorImage.getDefaultImage(position = position))
-                            .centerCrop()
-                            .skipMemoryCache(true)
                             .into(holder.image)
-                        holder.description.text = description
+                        holder.description.text = item.description
                         holder.rcvKeyword.visibility = View.VISIBLE
-                        holder.rcvKeyword.adapter = KeywordAdapter(keyWordsStringOnly).apply {
+                        holder.rcvKeyword.adapter = KeywordAdapter(item.keyWords).apply {
                             limitedItemCount = 3
                         }
                     }
@@ -124,8 +116,6 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                         .thumbnail(0.5f)
                         .override(150,150)
                         .error(ErrorImage.getDefaultImage(position = position))
-                        .centerCrop()
-                        .skipMemoryCache(true)
                         .into(holder.image)
                     if(item.keyWords.isNullOrEmpty()) {
                         holder.rcvKeyword.visibility = View.INVISIBLE
