@@ -1,6 +1,7 @@
 package com.news.sample.util
 
 import com.news.sample.R
+import kotlin.random.Random
 
 object ErrorImage {
     fun getDefaultImage(position: Int): Int {
@@ -11,6 +12,6 @@ object ErrorImage {
             R.drawable.default_fourth_background,
             R.drawable.default_fifth_background
         )
-        return imageList[position%5]
+        return imageList[Random.nextInt(5)]
     }
 }

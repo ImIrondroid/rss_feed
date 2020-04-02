@@ -1,6 +1,7 @@
 package com.news.sample.ui.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,7 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     override fun getItemId(position: Int): Long = listDiffer.currentList[position].hashCode().toLong()
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         val item = listDiffer.currentList[position]
 
         if(onItemSelectedListener!=null) {
@@ -61,20 +63,20 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
             }
         }
 
-        if(!item.status) {
+        if (!item.status) {
             doAsync {
                 var doc: Document? = null
 
                 //Exception 발생시 Retry
-                for(times in 0 until NETWORK_TIMES) {
+                for (times in 0 until NETWORK_TIMES) {
                     try {
                         doc = Jsoup.connect(item.link).timeout(LIMIT_TIME_OUT).get()
                         break
-                    } catch(e: Exception) {
-                        if(times == LIMIT_TIMES) e.printStackTrace()
+                    } catch (e: Exception) {
+                        if (times == LIMIT_TIMES) e.printStackTrace()
                     }
                 }
-                if(doc==null) {
+                if (doc == null) {
                     context.runOnUiThread {
                         requestManager
                             .load(ErrorImage.getDefaultImage(position))
@@ -82,7 +84,8 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                     }
                 } else {
                     item.status = true
-                    val description: String = doc.select("meta[property=og:description]").attr("content")
+                    val description: String =
+                        doc.select("meta[property=og:description]").attr("content")
                     val image: String = doc.select("meta[property=og:image]").attr("content")
                     val keyWords = description.extract()
                     val keyWordsStringOnly = arrayListOf<String>()
@@ -92,17 +95,7 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                         item.image = image
                         item.description = description
                         item.keyWords = keyWordsStringOnly
-                        requestManager
-                            .load(item.image)
-                            .thumbnail(0.5f)
-                            .override(150,150)
-                            .error(ErrorImage.getDefaultImage(position = position))
-                            .into(holder.image)
-                        holder.description.text = item.description
-                        holder.rcvKeyword.visibility = View.VISIBLE
-                        holder.rcvKeyword.adapter = KeywordAdapter(item.keyWords).apply {
-                            limitedItemCount = 3
-                        }
+                        notifyItemChanged(position)
                     }
                 }
             }
@@ -114,10 +107,10 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                     requestManager
                         .load(item.image)
                         .thumbnail(0.5f)
-                        .override(150,150)
+                        .override(150, 150)
                         .error(ErrorImage.getDefaultImage(position = position))
                         .into(holder.image)
-                    if(item.keyWords.isNullOrEmpty()) {
+                    if (item.keyWords.isNullOrEmpty()) {
                         holder.rcvKeyword.visibility = View.INVISIBLE
                     } else {
                         holder.rcvKeyword.visibility = View.VISIBLE

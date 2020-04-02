@@ -15,14 +15,16 @@ class ExceptionHandler(
     override fun uncaughtException(t: Thread, e: Throwable) {
         try {
             val intent = Intent(activity, SplashActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK }
-            val pendingIntent = PendingIntent
-                .getActivity(activity.applicationContext , 0, intent, intent.flags)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            val pendingIntent = PendingIntent.getActivity(
+                activity.applicationContext , 0, intent, intent.flags
+            )
             val alarmManager: AlarmManager = activity.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + RESTART_TIME, pendingIntent)
 
             activity.finish()
+
             exitProcess(2)
         } catch (e: Exception) {
             e.printStackTrace()
