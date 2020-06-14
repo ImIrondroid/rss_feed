@@ -1,10 +1,10 @@
-package com.news.sample.base
+package com.news.sample.util
 
 import android.app.Activity
 import android.os.Bundle
 import kotlin.reflect.KClass
 
-interface BaseNavigator {
+interface ActionStore {
 
     fun <T: Activity> nextActivity(kClass: KClass<T>, bundle: Bundle? = null, clearTask: Boolean = false)
 

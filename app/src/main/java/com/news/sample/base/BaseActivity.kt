@@ -10,15 +10,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.news.sample.BR
-import com.news.sample.util.ExceptionHandler
 import com.news.sample.ui.view.fragment.LoadingDialogFragment
+import com.news.sample.util.ActionStore
+import com.news.sample.util.ExceptionHandler
 import kotlin.reflect.KClass
 
-abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel<*>>
-    : AppCompatActivity(), BaseNavigator {
+abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel>
+    : AppCompatActivity(), ActionStore {
 
     @IdRes
     protected open val containerResId: Int = 0
+
     @LayoutRes
     protected open val layoutResId: Int = 0
     protected open val viewModelId: Int = BR.viewModel
@@ -29,23 +31,16 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel<*>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler(this))
-        registerNavigator()
         bindView()
     }
 
     private fun bindView() {
         viewDataBinding = DataBindingUtil.setContentView<VDB>(this, layoutResId)
         viewDataBinding.apply {
+            setVariable(viewModelId, viewModel)
             lifecycleOwner = this@BaseActivity
-            setBindingVariables()
             executePendingBindings()
         }
-    }
-
-    protected open fun registerNavigator() = Unit
-
-    protected open fun setBindingVariables() {
-        viewDataBinding.setVariable(viewModelId, viewModel)
     }
 
     override fun <T : Activity> nextActivity(kClass: KClass<T>, bundle: Bundle?, clearTask: Boolean) {

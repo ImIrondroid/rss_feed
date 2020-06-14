@@ -1,8 +1,9 @@
-package com.iron.base
+package com.news.sample.base
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-abstract class BaseRecyclerViewAdapter<T: Any>(
+
+abstract class BaseRecyclerViewAdapter<T>(
     itemCallback: DiffUtil.ItemCallback<T>
 ) : ListAdapter<T, BaseViewHolder<T>>(itemCallback) {
 

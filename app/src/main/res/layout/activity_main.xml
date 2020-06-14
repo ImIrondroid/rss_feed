@@ -9,6 +9,9 @@
         <variable
             name="viewModel"
             type="com.news.sample.ui.viewmodel.MainViewModel" />
+        <variable
+            name="adapter"
+            type="com.news.sample.ui.adapter.PositiveNewsAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,9 +31,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:descendantFocusability="afterDescendants"
+                adapter="@{adapter}"
+                submitList="@{viewModel.newsList}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
-                tools:listitem="@layout/item_news"
+                tools:listitem="@layout/test_item_news"
                 tools:itemCount="4"
                 />
 

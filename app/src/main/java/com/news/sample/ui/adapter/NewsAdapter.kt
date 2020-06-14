@@ -79,7 +79,7 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                 if (doc == null) {
                     context.runOnUiThread {
                         requestManager
-                            .load(ErrorImage.getDefaultImage(position))
+                            .load(ErrorImage.getDefaultImage())
                             .into(holder.image)
                     }
                 } else {
@@ -108,7 +108,7 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
                         .load(item.image)
                         .thumbnail(0.5f)
                         .override(150, 150)
-                        .error(ErrorImage.getDefaultImage(position = position))
+                        .error(ErrorImage.getDefaultImage())
                         .into(holder.image)
                     if (item.keyWords.isNullOrEmpty()) {
                         holder.rcvKeyword.visibility = View.INVISIBLE

@@ -4,8 +4,8 @@ import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 @BindingAdapter("register")
-fun SwipeRefreshLayout.registerListener(listener: SwipeRefreshLayout.OnRefreshListener) {
-    this.setOnRefreshListener(listener)
+fun SwipeRefreshLayout.registerListener(listener: SwipeRefreshLayout.OnRefreshListener?) {
+    if(listener!=null) this.setOnRefreshListener(listener)
 }
 
 @BindingAdapter("android:onRefresh")

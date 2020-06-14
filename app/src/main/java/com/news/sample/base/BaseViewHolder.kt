@@ -1,7 +1,8 @@
-package com.iron.base
+package com.news.sample.base
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
+import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 
 open class BaseViewHolder<T>(

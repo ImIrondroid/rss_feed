@@ -4,7 +4,7 @@ import com.news.sample.R
 import kotlin.random.Random
 
 object ErrorImage {
-    fun getDefaultImage(position: Int): Int {
+    fun getDefaultImage(): Int {
         val imageList = listOf(
             R.drawable.default_first_background,
             R.drawable.default_second_background,
