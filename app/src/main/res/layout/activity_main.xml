@@ -8,10 +8,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.news.sample.ui.viewmodel.MainViewModel" />
+            type="com.news.components.ui.viewmodel.MainViewModel" />
         <variable
             name="adapter"
-            type="com.news.sample.ui.adapter.PositiveNewsAdapter" />
+            type="com.news.components.ui.adapter.PositiveNewsAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
