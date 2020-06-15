@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="item"
-            type="com.news.sample.model.News" />
+            type="com.news.components.model.News" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
