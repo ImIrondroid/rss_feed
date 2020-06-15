@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.news.sample.base.BaseRecyclerViewAdapter
 import com.news.sample.base.BaseViewHolder
-import com.news.sample.databinding.TestItemNewsBinding
+import com.news.sample.databinding.PositiveItemNewsBinding
 import com.news.sample.model.News
 import com.news.sample.util.OnItemSelectedListener
-import kotlinx.android.synthetic.main.test_item_news.view.*
+import kotlinx.android.synthetic.main.positive_item_news.view.*
 
 class PositiveNewsAdapter : BaseRecyclerViewAdapter<News>(
     object : DiffUtil.ItemCallback<News>() {
@@ -37,7 +37,7 @@ class PositiveNewsAdapter : BaseRecyclerViewAdapter<News>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<News> {
         return PositiveNewsViewHolder(
-            TestItemNewsBinding.inflate(
+            PositiveItemNewsBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -46,7 +46,7 @@ class PositiveNewsAdapter : BaseRecyclerViewAdapter<News>(
     }
 
     inner class PositiveNewsViewHolder(
-        binding : TestItemNewsBinding
+        binding : PositiveItemNewsBinding
     ) : BaseViewHolder<News>(binding) {
         override fun onBind(item: News?) {
             super.onBind(item)

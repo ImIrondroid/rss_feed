@@ -15,9 +15,11 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val data = intent?.getSerializableExtra("data") as News
         val binding = DataBindingUtil.setContentView<ActivityDetailBinding>(this, R.layout.activity_detail)
-        binding.setVariable(BR.news, data)
-        binding.rcvKeyword.adapter = KeywordAdapter(data.keyWords).apply {
-            limitedItemCount = 3
+        binding.run {
+            setVariable(BR.news, data)
+            rcvKeyword.adapter = KeywordAdapter(data.keyWords).apply {
+                limitedItemCount = 3
+            }
         }
     }
 }

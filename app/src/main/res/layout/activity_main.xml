@@ -23,8 +23,7 @@
             android:id="@+id/swipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onRefresh="@{viewModel.refreshStatus}"
-            register="@{viewModel.refreshListener}">
+            android:onRefresh="@{viewModel.refreshStatus}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_news"
@@ -35,7 +34,7 @@
                 submitList="@{viewModel.newsList}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
-                tools:listitem="@layout/test_item_news"
+                tools:listitem="@layout/positive_item_news"
                 tools:itemCount="4"
                 />
 

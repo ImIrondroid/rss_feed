@@ -9,6 +9,7 @@ import com.news.sample.databinding.ActivityMainBinding
 import com.news.sample.model.News
 import com.news.sample.ui.adapter.PositiveNewsAdapter
 import com.news.sample.ui.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,10 +26,20 @@ class MainActivity: BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        init()
+
+        //start
+        mainViewModel.work()
+    }
+
+    private fun init() {
         viewDataBinding.setVariable(BR.adapter, newsAdapter.apply {
             setOnItemSelectedListener { item: News ->
                 startActivity(Intent(this@MainActivity, DetailActivity::class.java).apply { putExtra("data", item) })
             }
         })
+        swipe.setOnRefreshListener {
+            mainViewModel.startRefresh()
+        }
     }
 }
