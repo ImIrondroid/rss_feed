@@ -1,77 +1,37 @@
 package com.news.sample.ui.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.news.sample.base.BaseViewModel
 import com.news.sample.model.News
-import com.news.sample.ui.navigator.MainNavigator
+import com.news.sample.service.NewsApi
 import com.news.sample.util.lifecycle.NotNullMutableLiveData
-import com.news.sample.util.rx.SchedulerProvider
-import io.reactivex.*
-import org.jsoup.Jsoup
-import java.util.concurrent.TimeUnit
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class MainViewModel(
-    private val scheduler: SchedulerProvider
-): BaseViewModel<MainNavigator>() {
+    private val newsApi: NewsApi
+) : BaseViewModel() {
 
-    var linkList = arrayListOf<News>()
     val refreshStatus = NotNullMutableLiveData(false)
-    val refreshListener = SwipeRefreshLayout.OnRefreshListener {
-        linkList = arrayListOf()
-        startRefresh()
-        crawlingGoogle()
+    val newsList = MutableLiveData<List<News>>(mutableListOf())
+
+    fun work() {
+        newsApi.getNews()
+            .doOnSubscribe { newsList.value = mutableListOf() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { news -> newsList.value = newsList.value!!.toMutableList().apply { this.add(news) }; if(refreshStatus.value) stopRefresh() },
+                { throwable: Throwable? -> throwable?.printStackTrace() })
+            .let{ addDisposable(it) }
     }
 
-    init {
-        overtimeWait()
-            .doOnComplete { getNavigator().hideLoading() }
-            .subscribe({},{t: Throwable? -> t?.printStackTrace() })
-            .let(compositeDisposable::add)
-    }
-
-    fun crawlingGoogle() {
-        getLinks()
-            .doOnSubscribe{ if(!refreshStatus.value) getNavigator().showLoading() }
-            .retry(RETRY_TIMES)
-            .subscribeOn(scheduler.io())
-            .observeOn(scheduler.mainThread())
-            .subscribe({ getNavigator().crawlingLink(); stopRefresh() } , { t: Throwable? -> t?.printStackTrace() })
-            .let(compositeDisposable::add)
-    }
-
-    fun getLinks(): Completable {
-        return Completable.create {
-            try {
-                val doc = Jsoup.connect(URL).get()
-                val elemnets = doc.select("item")
-                elemnets.forEach { element ->
-                    val title = element.select("title").text()
-                    val link = element.select("link").text()
-                    linkList.add(News(link = link, title = title))
-                }
-            } catch(e: Exception) {
-                it.onError(e)
-            }
-            it.onComplete()
-        }
-    }
-
-    fun overtimeWait(): Observable<Long> {
-        return Observable
-            .timer(OVER_TIME, TimeUnit.MILLISECONDS)
-    }
-
-    private fun startRefresh() {
+    fun startRefresh() {
         refreshStatus.value = true
+        work()
     }
 
-    private fun stopRefresh() {
+    fun stopRefresh() {
         refreshStatus.value = false
-    }
-
-    companion object {
-        const val URL = "https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko"
-        const val OVER_TIME: Long  = 3000L
-        const val RETRY_TIMES: Long = 3L
     }
 }

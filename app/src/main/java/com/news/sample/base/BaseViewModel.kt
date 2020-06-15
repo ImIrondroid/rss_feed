@@ -2,18 +2,17 @@ package com.news.sample.base
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
-import java.lang.ref.WeakReference
+import io.reactivex.disposables.Disposable
 
-open class BaseViewModel<N: BaseNavigator>: ViewModel() {
+open class BaseViewModel: ViewModel() {
 
-    private lateinit var mNavigator : WeakReference<N>
-    protected val compositeDisposable : CompositeDisposable by lazy {
+    private val compositeDisposable : CompositeDisposable by lazy {
         CompositeDisposable()
     }
 
-    fun setNavigator(navigator: N) { mNavigator = WeakReference(navigator) }
-
-    fun getNavigator(): N = mNavigator.get()!!
+    fun addDisposable(disposable: Disposable) {
+        compositeDisposable.add(disposable)
+    }
 
     override fun onCleared() {
         compositeDisposable.clear()

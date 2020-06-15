@@ -10,9 +10,6 @@
         <variable
             name="news"
             type="com.news.sample.model.News" />
-        <variable
-            name="viewModel"
-            type="com.news.sample.ui.viewmodel.DetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

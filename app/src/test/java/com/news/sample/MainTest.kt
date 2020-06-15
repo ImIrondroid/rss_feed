@@ -1,17 +1,8 @@
 package com.news.sample
 
-import com.news.sample.ui.viewmodel.MainViewModel
-import com.news.sample.util.rx.AppSchedulerProvider
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.TestScheduler
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import java.util.concurrent.TimeUnit
-
 class MainTest {
 
-    lateinit var viewModel: MainViewModel
+    /*lateinit var viewModel: MainViewModel
 
     @Before
     fun setUp() {
@@ -51,5 +42,5 @@ class MainTest {
     }
 
     @After
-    fun tearDown() = RxJavaPlugins.reset()
+    fun tearDown() = RxJavaPlugins.reset()*/
 }
